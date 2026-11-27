@@ -416,6 +416,7 @@ function perfil(){const u=U;const cur=S.bg||'#070707';return `<div class="screen
     <div class="card"><div class="row"><span class="grow mute">Nivel</span><b>${LEVELS[S.profile.level]}</b></div></div>
     <div class="card"><div class="row"><span class="grow mute">Lugar</span><b>${PLACES[S.profile.place]}</b></div></div>
     <button class="btn ghost block" data-a="edit">Cambiar plan</button></div></div>
+  ${(AB.config.adminEmail&&u.email&&u.email.toLowerCase()===AB.config.adminEmail.toLowerCase())?`<div class="section"><h2>Administración</h2><a class="wk" href="${esc(AB.config.adminUrl||'admin.html')}" target="_blank" style="text-decoration:none;color:inherit"><span class="badge" style="background:var(--goldg);color:var(--on)">★</span><span class="grow"><h3>Panel de administración</h3><span class="mute">Clientas VIP, cuestionarios, planes y chat</span></span><span aria-hidden="true">›</span></a></div>`:''}
   <div class="section list"><button class="btn dark block" data-a="logout">Cerrar sesión</button>
     <button class="btn ghost block" data-a="delacc">Borrar mi cuenta</button></div>
   <div class="section card"><h3 style="margin-bottom:6px">Ayuda</h3><p class="mute" style="margin:0">Escríbenos a <b>${esc(AB.config.supportEmail||'')}</b></p>

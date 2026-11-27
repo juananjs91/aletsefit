@@ -16,6 +16,7 @@ window.ALETSE_CONFIG = {
   vipPrice: "9,99 €/mes",          // precio que se muestra si la tienda aún no responde
   supportEmail: "aletsefitoficial@gmail.com",
   adminEmail: "aletsefitoficial@gmail.com",   // el mismo correo que en firestore.rules
+  adminUrl: "https://juananjs91.github.io/aletsefit/admin.html",
   privacyUrl: "https://juananjs91.github.io/aletsefit/privacidad.html",
   deleteUrl: "https://juananjs91.github.io/aletsefit/borrar-cuenta.html"
 };
