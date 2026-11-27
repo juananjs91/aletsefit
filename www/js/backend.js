@@ -72,6 +72,10 @@
           let snap = null;
           try { snap = await FB.getDoc(FB.doc('users', uid)); } catch (e) {}
           const d = snap && snap.exists() ? snap.data() : {};
+          try {
+            const created = Date.parse(u.metadata && u.metadata.creationTime) || Date.now();
+            await FB.setDoc(FB.doc('stats', uid), { createdAt: created, lastSeen: Date.now(), platform }, { merge: true });
+          } catch (e) { console.warn('stats', e); }
           await pay.init(uid);
           onUser({ id: uid, name: d.name || u.displayName || '', email: u.email, photo: d.photo || null }, d.data || null);
         });
@@ -99,7 +103,7 @@
         try {
           const ms = await FB.getDocs(FB.collection('chats', u.uid, 'msgs'));
           const b = FB.batch(); ms.forEach(m => b.delete(m.ref));
-          b.delete(FB.doc('vip', u.uid)); b.delete(FB.doc('users', u.uid)); await b.commit();
+          b.delete(FB.doc('vip', u.uid)); b.delete(FB.doc('stats', u.uid)); b.delete(FB.doc('users', u.uid)); await b.commit();
         } catch (e) { console.warn(e); }
         await pay.logout();
         try { await FB.deleteUser(u); } catch (e) { throw fbErr(e); }

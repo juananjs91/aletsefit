@@ -62,14 +62,25 @@ const fmt=t=>{if(!t)return '';const d=new Date(t);return d.toLocaleDateString('e
 if(!C.firebase||!C.firebase.apiKey){app.innerHTML='<h1>Falta configurar Firebase</h1><p class="mute">Rellena config.js con los datos de tu proyecto de Firebase.</p>';}
 else{
 FB.init(C.firebase);
-let clients=[],filter='activas',stopList=null,stopChat=null,cur=null,msgs=[];
+let clients=[],stats=[],filter='activas',stopList=null,stopStats=null,stopChat=null,cur=null,msgs=[];
 function loginView(err){app.innerHTML=`<header><span class="brand">ALETSE FIT</span></header><h1 style="margin-bottom:6px">Panel de administración</h1><p class="mute">Entra con tu correo de administradora.</p>
   <form id="lf"><label for="lm">Correo</label><input id="lm" type="email" autocomplete="email" required><label for="lp">Contraseña</label><input id="lp" type="password" autocomplete="current-password" required><p class="err">${esc(err||'')}</p><button class="btn gold block">Entrar</button></form>`}
+function statsHtml(){
+  const now=Date.now(),D=864e5,sod=new Date();sod.setHours(0,0,0,0);
+  const n=f=>stats.filter(f).length;
+  const tot=stats.length,newT=n(x=>x.createdAt>=+sod),new7=n(x=>x.createdAt>=now-7*D),new30=n(x=>x.createdAt>=now-30*D);
+  const actT=n(x=>x.lastSeen>=+sod),act7=n(x=>x.lastSeen>=now-7*D),act30=n(x=>x.lastSeen>=now-30*D);
+  const pl=k=>n(x=>(x.platform||'web')===k);
+  return `<h1 style="margin-bottom:16px">Estadísticas</h1>
+  <div class="stats"><div class="stat"><b>${tot}</b><span>Usuarios registrados</span></div><div class="stat"><b>${newT}</b><span>Nuevos hoy</span></div><div class="stat"><b>${actT}</b><span>Han entrado hoy</span></div></div>
+  <div class="card"><dl><dt>Nuevos últimos 7 días</dt><dd>${new7}</dd><dt>Nuevos últimos 30 días</dt><dd>${new30}</dd><dt>Activos últimos 7 días</dt><dd>${act7}</dd><dt>Activos últimos 30 días</dt><dd>${act30}</dd><dt>Desde Android</dt><dd>${pl('android')}</dd><dt>Desde iPhone</dt><dd>${pl('ios')}</dd><dt>Desde la web</dt><dd>${pl('web')}</dd></dl>
+  <p class="mute" style="margin:14px 0 0">Las <b>descargas</b> las cuenta Google: <a href="https://play.google.com/console" target="_blank" rel="noopener">Play Console › tu app › Estadísticas</a>.</p></div>`}
 function listView(){
   const act=clients.filter(c=>c.active);const shown=filter==='activas'?act:filter==='pendientes'?clients.filter(c=>c.active&&(c.pending||c.unread)):clients;
   const income=(act.length*9.99*0.85).toFixed(2).replace('.',',');
   app.innerHTML=`<header><span class="brand">ALETSE FIT</span><button class="btn" id="out">Salir</button></header>
-  <h1 style="margin-bottom:16px">Clientas VIP</h1>
+  ${statsHtml()}
+  <h1 style="margin:28px 0 16px">Clientas VIP</h1>
   <div class="stats"><div class="stat"><b>${act.length}</b><span>Activas</span></div><div class="stat"><b>${clients.filter(c=>c.active&&(c.pending||c.unread)).length}</b><span>Pendientes</span></div><div class="stat"><b>${income} €</b><span>Al mes aprox. (tras 15 % de la tienda)</span></div></div>
   <div class="seg">${[['activas','Activas'],['pendientes','Pendientes'],['todas','Todas']].map(f=>`<button data-f="${f[0]}" class="${filter===f[0]?'on':''}">${f[1]}</button>`).join('')}</div>
   ${shown.length?shown.map(c=>`<button class="client" data-id="${esc(c.id)}"><span class="ini">${esc((c.name||c.email||'?')[0].toUpperCase())}</span><span class="grow"><h3>${esc(c.name||'Sin nombre')}</h3><span class="mute">${esc(c.email||'')}</span><br>
@@ -95,9 +106,11 @@ app.addEventListener('submit',async e=>{e.preventDefault();const id=e.target.id;
   if(id==='pf'){try{await FB.updateDoc(FB.doc('vip',cur),{trainPlan:document.getElementById('tp').value.trim(),dietPlan:document.getElementById('dp').value.trim(),plansAt:Date.now(),pending:false,updatedAt:Date.now()});
       await FB.addDoc(FB.collection('chats',cur,'msgs'),{from:'admin',t:'¡Tus planes privados ya están listos! Los tienes en «Mis planes».',at:Date.now()});toast('Planes enviados')}catch(x){toast('No se pudo guardar')}}
   if(id==='cf'){const v=document.getElementById('ci').value.trim();if(!v)return;try{await FB.addDoc(FB.collection('chats',cur,'msgs'),{from:'admin',t:v,at:Date.now()});document.getElementById('ci').value=''}catch(x){toast('No se pudo enviar')}}});
-FB.onAuthStateChanged(u=>{if(stopList){stopList();stopList=null}
+FB.onAuthStateChanged(u=>{if(stopList){stopList();stopList=null}if(stopStats){stopStats();stopStats=null}
   if(!u){cur=null;return loginView()}
   if(C.adminEmail&&u.email!==C.adminEmail){FB.signOut();return loginView('Esta cuenta no es de administradora.')}
+  if(stopStats)stopStats();
+  stopStats=FB.onSnapshot(FB.collection('stats'),q=>{stats=q.docs.map(d=>d.data());const typing=document.activeElement&&['tp','dp','ci'].includes(document.activeElement.id);if(!cur&&!typing)render()},()=>{});
   stopList=FB.onSnapshot(FB.query(FB.collection('vip'),FB.orderBy('updatedAt','desc')),s=>{clients=s.docs.map(d=>Object.assign({id:d.id},d.data()));const typing=document.activeElement&&['tp','dp','ci'].includes(document.activeElement.id);if(!typing)render()},()=>{app.innerHTML='<h1>Sin permiso</h1><p class="mute">Revisa que tu correo esté en firestore.rules.</p><button class="btn" id="out">Salir</button>'})});
 }
 }
