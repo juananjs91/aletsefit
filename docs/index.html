@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ALETSE FIT</title>
+<meta name="description" content="ALETSE FIT, desde Palma de Mallorca: rutinas, dietas saludables y motivación para cuidar y hacer crecer tu cuerpo y tu mente.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=DM+Serif+Display&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* VOICE: serena, elegante y cálida; un estudio boutique de bienestar en Palma
+   IDEA: la portada de una marca de lujo: el emblema dorado como sello sobre negro
+   PICTURE: el emblema grande con tres móviles de la app en abanico; luego la Tramuntana y el mar en líneas doradas
+   COLOUR and TYPE: negro, dorado y marfil de la marca; Cinzel para la marca, DM Serif Display + Inter
+   LAYOUT: web completa: menú, portada, filosofía, app, VIP, productos, Palma, comunidad, contacto, pie */
+:root{color-scheme:dark;--bg:#070707;--bg2:#0e0d0a;--ink:#f3eee2;--mute:#a8a090;--gold:#d4af37;--gold2:#f6e3a1;--line:#2b261b;--goldg:linear-gradient(135deg,#f6e3a1,#d4af37 50%,#9c7820)}
+*{box-sizing:border-box;min-width:0}
+html{scroll-behavior:smooth;scroll-padding-top:72px}
+body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.6 Inter,system-ui,sans-serif;overflow-x:clip;-webkit-font-smoothing:antialiased}
+h1,h2,h3{margin:0;font-weight:400;line-height:1.08;text-wrap:balance}
+h2{font:400 clamp(32px,5vw,48px)/1.08 'DM Serif Display',Georgia,serif;color:var(--gold2)}
+h3{font:600 18px/1.3 Inter,sans-serif}
+a{color:var(--gold)}
+.wrap{max-width:1180px;margin:0 auto;padding:0 max(5vw,18px)}
+.band{padding:clamp(64px,9vw,120px) 0}
+.lead{font-size:19px;color:#d8d1c0;max-width:60ch}
+.kicker{color:var(--gold);font-weight:600;font-size:14px;margin:0 0 12px}
+/* menú */
+nav.top{position:sticky;top:0;z-index:10;background:rgba(7,7,7,.86);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+nav.top .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;min-height:64px}
+.brand{display:flex;align-items:center;gap:10px;font:900 18px Cinzel,serif;letter-spacing:.08em;color:var(--gold);text-decoration:none}
+.brand svg{width:34px;height:34px}
+.links{display:flex;gap:4px;flex-wrap:wrap;justify-content:flex-end}
+.links a{color:#d8d1c0;text-decoration:none;font-size:15px;padding:10px 12px;border-radius:10px}
+.links a:hover{color:var(--gold2)}
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:52px;padding:0 26px;border-radius:16px;font-weight:600;text-decoration:none;border:1px solid var(--gold);color:var(--gold2)}
+.btn.gold{background:var(--goldg);color:#0b0b0b;border:0}
+.btn:focus-visible,.links a:focus-visible{outline:2px solid var(--gold2);outline-offset:3px}
+/* portada */
+.hero{position:relative;overflow:hidden;text-align:center;padding:clamp(48px,7vw,90px) 0 0;background:radial-gradient(circle at 50% 22%,#3a2e12,transparent 55%)}
+.hero .seal{width:clamp(130px,18vw,190px);margin:0 auto;filter:drop-shadow(0 18px 40px rgba(212,175,55,.3))}
+.wm{font:900 clamp(48px,9vw,96px)/1 Cinzel,serif;letter-spacing:.06em;background:linear-gradient(180deg,#f6e3a1,#d4af37 55%,#8c6a1a);-webkit-background-clip:text;background-clip:text;color:transparent;margin-top:18px}
+.wm2{display:flex;align-items:center;justify-content:center;gap:16px;font:700 clamp(18px,2.4vw,26px) Cinzel,serif;letter-spacing:.45em;color:var(--gold);margin-top:6px}.wm2 i{width:56px;height:1px;background:var(--gold)}
+.hero p.mission{font:400 clamp(22px,3vw,30px)/1.3 'DM Serif Display',serif;max-width:30ch;margin:26px auto 10px;color:var(--ink)}
+.hero .place{color:var(--mute);font-size:15px}
+.ctas{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:26px}
+.fan{display:flex;justify-content:center;align-items:flex-end;margin-top:56px;height:clamp(300px,46vw,520px);gap:0}
+.phone{width:clamp(150px,22vw,250px);border-radius:32px;border:2px solid var(--gold);overflow:hidden;background:#000;box-shadow:0 30px 70px rgba(0,0,0,.6),0 0 60px rgba(212,175,55,.12);flex:none}
+.phone img{display:block;width:100%;aspect-ratio:9/18;object-fit:cover;object-position:top}
+.fan .phone:nth-child(1){transform:translate(22%,8%) rotate(-8deg)}
+.fan .phone:nth-child(2){position:relative;z-index:2;transform:translateY(-2%)}
+.fan .phone:nth-child(3){transform:translate(-22%,8%) rotate(8deg)}
+/* pilares */
+.pillars{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;margin-top:40px}
+.pillar{border:1px solid var(--line);border-radius:24px;padding:28px;background:var(--bg2)}
+.pillar .n{font:400 46px/1 'DM Serif Display',serif;color:var(--gold)}
+.pillar h3{font:400 26px 'DM Serif Display',serif;color:var(--gold2);margin:14px 0 8px}
+.pillar p{margin:0;color:#cfc6b0}
+/* app */
+.app{background:var(--bg2);border-block:1px solid var(--line)}
+.feat{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px 28px;margin-top:30px}
+.feat div{border-top:1px solid var(--line);padding-top:14px}
+.feat p{margin:6px 0 0;color:#cfc6b0;font-size:16px}
+.shots{display:flex;gap:16px;overflow-x:auto;scroll-snap-type:x mandatory;padding:34px 2px 10px;margin-top:10px}
+.shots figure{margin:0;flex:none;width:min(230px,62vw);scroll-snap-align:start}
+.shots figure .phone{width:100%}
+.shots figcaption{text-align:center;color:var(--mute);font-size:14px;margin-top:10px}
+.shotnav{display:flex;gap:10px;margin-top:10px}
+.shotnav button{width:48px;height:48px;border-radius:50%;border:1px solid var(--gold);background:none;color:var(--gold2);font-size:20px;cursor:pointer}
+/* vip */
+.vip{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:40px;align-items:center}
+.vipcard{border:1px solid var(--gold);border-radius:28px;padding:30px;background:radial-gradient(circle at 85% 0%,#3a2e12,#070707 70%)}
+.price{font:400 64px/1 'DM Serif Display',serif;color:var(--gold2)}.price small{font:500 17px Inter;color:var(--mute)}
+.vipcard ul{list-style:none;padding:0;margin:22px 0 26px}
+.vipcard li{display:flex;gap:12px;padding:12px 0;border-top:1px solid var(--line)}
+.vipcard li b{flex:none;width:30px;height:30px;border-radius:50%;background:var(--goldg);color:#0b0b0b;display:grid;place-items:center;font:400 15px 'DM Serif Display',serif}
+/* productos */
+.soon{border:1px dashed var(--gold);border-radius:24px;padding:36px;text-align:center;margin-top:30px;background:var(--bg2)}
+/* palma */
+.palma{position:relative;overflow:hidden}
+.palma .fig{position:relative;height:clamp(220px,30vw,340px);margin-top:36px}
+.palma .fig svg{position:absolute;inset:0;width:100%;height:100%}
+/* comunidad y contacto */
+.social{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-top:30px}
+.social a{display:block;border:1px solid var(--line);border-radius:20px;padding:22px;text-decoration:none;color:var(--ink);background:var(--bg2)}
+.social a b{display:block;font:400 22px 'DM Serif Display',serif;color:var(--gold2)}
+.social a span{color:var(--mute);font-size:15px}
+.contact{text-align:center}
+.contact .mail{font:400 clamp(22px,4vw,34px) 'DM Serif Display',serif;color:var(--gold2);word-break:break-word}
+footer{border-top:1px solid var(--line);padding:30px 0 40px;color:var(--mute);font-size:14px}
+footer .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
+footer a{color:var(--mute)}
+@media(max-width:860px){.pillars,.social{grid-template-columns:minmax(0,1fr)}.vip{grid-template-columns:minmax(0,1fr)}.links a.hide{display:none}}
+@media(max-width:600px){.feat{grid-template-columns:minmax(0,1fr)}.links{display:none}.fan .phone:nth-child(1),.fan .phone:nth-child(3){width:clamp(120px,34vw,160px)}}
+@media(prefers-reduced-motion:no-preference){.hero .seal{animation:rise 1.2s ease-out both}@keyframes rise{from{opacity:0;transform:translateY(14px) scale(.96)}}}
+</style>
+</head>
+<body>
+<nav class="top" aria-label="Menú"><div class="wrap">
+  <a class="brand" href="#inicio"><svg viewBox="0 0 200 200" aria-hidden="true"><defs>
+<linearGradient id="g1" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f6e3a1"/><stop offset=".45" stop-color="#d4af37"/><stop offset="1" stop-color="#8c6a1a"/></linearGradient>
+<linearGradient id="g2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#e8c766"/><stop offset="1" stop-color="#a7801f"/></linearGradient>
+</defs>
+<circle cx="100" cy="100" r="96" fill="#0b0b0b" stroke="url(#g1)" stroke-width="4"/>
+<circle cx="100" cy="100" r="86" fill="none" stroke="#d4af37" stroke-opacity=".35" stroke-width="1"/>
+<!-- cabeza -->
+<polygon points="100,24 126,36 146,56 156,84 160,110 152,138 136,156 116,166 100,168 84,166 64,156 48,138 40,110 44,84 54,56 74,36" fill="url(#g1)"/>
+<!-- facetas -->
+<polygon points="100,24 126,36 146,56 100,62 54,56 74,36" fill="#f3dc8c"/>
+<polygon points="54,56 100,62 146,56 156,84 100,80 44,84" fill="#d9b548"/>
+<!-- frente / ceja -->
+<polygon points="42,88 100,80 158,88 150,104 114,98 100,108 86,98 50,104" fill="#0b0b0b"/>
+<!-- ojos -->
+<polygon points="64,100 86,107 81,113 66,109" fill="#f6e3a1"/>
+<polygon points="136,100 114,107 119,113 134,109" fill="#f6e3a1"/>
+<!-- mejillas -->
+<polygon points="40,110 62,112 66,140 48,138" fill="#a7801f"/>
+<polygon points="160,110 138,112 134,140 152,138" fill="#a7801f"/>
+<!-- hocico -->
+<polygon points="62,114 100,108 138,114 144,142 126,162 100,166 74,162 56,142" fill="#0b0b0b"/>
+<polygon points="80,114 100,110 120,114 126,132 100,138 74,132" fill="url(#g2)"/>
+<ellipse cx="90" cy="129" rx="6" ry="4" fill="#0b0b0b"/><ellipse cx="110" cy="129" rx="6" ry="4" fill="#0b0b0b"/>
+<path d="M82 152 Q100 148 118 152" fill="none" stroke="#d4af37" stroke-width="3" stroke-linecap="round"/>
+<!-- mariposa -->
+<g transform="translate(140 40) rotate(18)">
+<path d="M0 0 C-4 -12 -18 -14 -18 -4 C-18 4 -8 6 -2 2 C-10 6 -12 14 -6 15 C-2 16 0 8 0 0 Z" fill="#f6e3a1" stroke="#0b0b0b" stroke-width="1.2"/>
+<path d="M0 0 C4 -12 18 -14 18 -4 C18 4 8 6 2 2 C10 6 12 14 6 15 C2 16 0 8 0 0 Z" fill="#e8c766" stroke="#0b0b0b" stroke-width="1.2"/>
+<rect x="-1" y="-6" width="2" height="18" rx="1" fill="#0b0b0b"/>
+</g></svg>ALETSE FIT</a>
+  <div class="links"><a href="#filosofia">Filosofía</a><a href="#app">La app</a><a href="#vip">VIP</a><a class="hide" href="#productos">Productos</a><a class="hide" href="#palma">Palma</a><a href="#contacto">Contacto</a></div>
+</div></nav>
+
+<header class="hero" id="inicio"><div class="wrap">
+  <svg class="seal" viewBox="0 0 200 200" role="img" aria-label="Emblema de ALETSE FIT"><defs>
+<linearGradient id="h1" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f6e3a1"/><stop offset=".45" stop-color="#d4af37"/><stop offset="1" stop-color="#8c6a1a"/></linearGradient>
+<linearGradient id="h2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#e8c766"/><stop offset="1" stop-color="#a7801f"/></linearGradient>
+</defs>
+<circle cx="100" cy="100" r="96" fill="#0b0b0b" stroke="url(#h1)" stroke-width="4"/>
+<circle cx="100" cy="100" r="86" fill="none" stroke="#d4af37" stroke-opacity=".35" stroke-width="1"/>
+<!-- cabeza -->
+<polygon points="100,24 126,36 146,56 156,84 160,110 152,138 136,156 116,166 100,168 84,166 64,156 48,138 40,110 44,84 54,56 74,36" fill="url(#h1)"/>
+<!-- facetas -->
+<polygon points="100,24 126,36 146,56 100,62 54,56 74,36" fill="#f3dc8c"/>
+<polygon points="54,56 100,62 146,56 156,84 100,80 44,84" fill="#d9b548"/>
+<!-- frente / ceja -->
+<polygon points="42,88 100,80 158,88 150,104 114,98 100,108 86,98 50,104" fill="#0b0b0b"/>
+<!-- ojos -->
+<polygon points="64,100 86,107 81,113 66,109" fill="#f6e3a1"/>
+<polygon points="136,100 114,107 119,113 134,109" fill="#f6e3a1"/>
+<!-- mejillas -->
+<polygon points="40,110 62,112 66,140 48,138" fill="#a7801f"/>
+<polygon points="160,110 138,112 134,140 152,138" fill="#a7801f"/>
+<!-- hocico -->
+<polygon points="62,114 100,108 138,114 144,142 126,162 100,166 74,162 56,142" fill="#0b0b0b"/>
+<polygon points="80,114 100,110 120,114 126,132 100,138 74,132" fill="url(#h2)"/>
+<ellipse cx="90" cy="129" rx="6" ry="4" fill="#0b0b0b"/><ellipse cx="110" cy="129" rx="6" ry="4" fill="#0b0b0b"/>
+<path d="M82 152 Q100 148 118 152" fill="none" stroke="#d4af37" stroke-width="3" stroke-linecap="round"/>
+<!-- mariposa -->
+<g transform="translate(140 40) rotate(18)">
+<path d="M0 0 C-4 -12 -18 -14 -18 -4 C-18 4 -8 6 -2 2 C-10 6 -12 14 -6 15 C-2 16 0 8 0 0 Z" fill="#f6e3a1" stroke="#0b0b0b" stroke-width="1.2"/>
+<path d="M0 0 C4 -12 18 -14 18 -4 C18 4 8 6 2 2 C10 6 12 14 6 15 C2 16 0 8 0 0 Z" fill="#e8c766" stroke="#0b0b0b" stroke-width="1.2"/>
+<rect x="-1" y="-6" width="2" height="18" rx="1" fill="#0b0b0b"/>
+</g></svg>
+  <div class="wm">ALETSE</div><div class="wm2"><i></i>FIT<i></i></div>
+  <p class="mission">Nos entregamos en cuerpo y alma a cuidarte, sanarte y hacerte crecer, por dentro y por fuera.</p>
+  <p class="place">Fuerza que transforma · Desde Palma de Mallorca</p>
+  <div class="ctas"><a class="btn gold" href="#app">Descubre la app</a><a class="btn" href="#vip">Hazte VIP</a></div>
+  <div class="fan" aria-hidden="true">
+    <div class="phone"><img src="img/3-entreno.webp" alt=""></div>
+    <div class="phone"><img src="img/2-inicio.webp" alt=""></div>
+    <div class="phone"><img src="img/6-logros.webp" alt=""></div>
+  </div>
+</div></header>
+
+<section class="band" id="filosofia"><div class="wrap">
+  <p class="kicker">Nuestra filosofía</p>
+  <h2>Cuerpo y mente crecen juntos</h2>
+  <p class="lead" style="margin-top:16px">Como el gorila y la mariposa de nuestro emblema: la fuerza que construyes cada día y la transformación que llega cuando no te rindes.</p>
+  <div class="pillars">
+    <div class="pillar"><div class="n">I</div><h3>Entrena</h3><p>Rutinas en casa o en el gimnasio, adaptadas a tu objetivo y a tu nivel. Fuerza con técnica, sin prisas.</p></div>
+    <div class="pillar"><div class="n">II</div><h3>Nutre</h3><p>Dieta mediterránea, sencilla y rica. Comer bien para tener energía, no para castigarte.</p></div>
+    <div class="pillar"><div class="n">III</div><h3>Crece</h3><p>Motivación diaria, rachas y pequeños logros. La constancia es lo que de verdad transforma.</p></div>
+  </div>
+</div></section>
+
+<section class="band app" id="app"><div class="wrap">
+  <p class="kicker">La app</p>
+  <h2>ALETSE FIT: Rutinas y Dietas</h2>
+  <p class="lead" style="margin-top:16px">Todo tu plan en el bolsillo, en negro y dorado. Muy pronto en Google Play.</p>
+  <div class="feat">
+    <div><h3>Plan según tu objetivo</h3><p>Perder grasa, ganar músculo, tonificar o ganar salud y energía.</p></div>
+    <div><h3>Entreno paso a paso</h3><p>Marca cada serie y el descanso se cuenta solo.</p></div>
+    <div><h3>Menús saludables</h3><p>Un menú para cada día, control de agua y consejos.</p></div>
+    <div><h3>Rachas y logros</h3><p>Cada día que entras suma: x1, x2, x3… y ganas medallas.</p></div>
+    <div><h3>Frase motivadora</h3><p>Toca y recibe una frase nueva cuando más la necesitas.</p></div>
+    <div><h3>Tu app, a tu gusto</h3><p>Foto de perfil y color de fondo a elegir.</p></div>
+  </div>
+  <div class="shots" id="shots">
+    <figure><div class="phone"><img src="img/2-inicio.webp" alt="Pantalla de inicio con frase motivadora" loading="lazy"></div><figcaption>Inicio</figcaption></figure>
+    <figure><div class="phone"><img src="img/3-entreno.webp" alt="Plan semanal de entreno" loading="lazy"></div><figcaption>Entreno</figcaption></figure>
+    <figure><div class="phone"><img src="img/5-rutina.webp" alt="Rutina con series y descanso" loading="lazy"></div><figcaption>Rutina</figcaption></figure>
+    <figure><div class="phone"><img src="img/4-nutricion.webp" alt="Menú del día" loading="lazy"></div><figcaption>Nutrición</figcaption></figure>
+    <figure><div class="phone"><img src="img/6-logros.webp" alt="Logros y rachas" loading="lazy"></div><figcaption>Logros</figcaption></figure>
+    <figure><div class="phone"><img src="img/7-vip.webp" alt="ALETSE FIT VIP" loading="lazy"></div><figcaption>VIP</figcaption></figure>
+  </div>
+  <div class="shotnav"><button id="prev" aria-label="Anterior">‹</button><button id="next" aria-label="Siguiente">›</button></div>
+</div></section>
+
+<section class="band" id="vip"><div class="wrap vip">
+  <div><p class="kicker">ALETSE FIT VIP</p><h2>Tu plan, hecho solo para ti</h2>
+    <p class="lead" style="margin-top:16px">Cuéntanos tu objetivo, tus horarios, tus gustos y tus molestias. Preparamos tu plan de entreno y tu plan de dieta a mano, y te acompañamos por chat.</p></div>
+  <div class="vipcard"><div class="price">9,99 € <small>al mes</small></div>
+    <ul><li><b>1</b><span><h3>Plan privado de entreno</h3><span style="color:#cfc6b0">Diseñado para tu cuerpo y tu nivel.</span></span></li>
+      <li><b>2</b><span><h3>Plan privado de dieta</h3><span style="color:#cfc6b0">Adaptado a tus gustos, alergias y horarios.</span></span></li>
+      <li><b>3</b><span><h3>Consultoría privada</h3><span style="color:#cfc6b0">Respuesta personal en menos de 24 h.</span></span></li></ul>
+    <a class="btn gold" href="#contacto" style="width:100%">Quiero ser VIP</a>
+    <p style="color:var(--mute);font-size:14px;margin:12px 0 0">Se contrata desde la app. Cancela cuando quieras.</p></div>
+</div></section>
+
+<section class="band" id="productos" style="padding-top:0"><div class="wrap">
+  <p class="kicker">Productos</p><h2>La tienda ALETSE FIT</h2>
+  <div class="soon"><h3 style="font:400 26px 'DM Serif Display',serif;color:var(--gold2)">Muy pronto</h3><p style="color:#cfc6b0;margin:8px 0 0">Estamos preparando nuestros productos. Síguenos para enterarte la primera.</p></div>
+</div></section>
+
+<section class="band palma app" id="palma"><div class="wrap">
+  <p class="kicker">Desde Palma de Mallorca</p>
+  <h2>Nacimos entre el mar y la montaña</h2>
+  <p class="lead" style="margin-top:16px">Somos de Palma. La luz del Mediterráneo, la Serra de Tramuntana y la dieta de nuestra isla inspiran cada rutina y cada menú.</p>
+  <div class="fig"><svg viewBox="0 0 1200 340" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+    <defs><linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0e0d0a"/><stop offset="1" stop-color="#2a2110"/></linearGradient>
+      <linearGradient id="gl" x1="0" x2="1"><stop offset="0" stop-color="#d4af37" stop-opacity="0"/><stop offset=".5" stop-color="#f6e3a1"/><stop offset="1" stop-color="#d4af37" stop-opacity="0"/></linearGradient></defs>
+    <rect width="1200" height="340" fill="url(#sky)"/>
+    <circle cx="640" cy="150" r="58" fill="none" stroke="#d4af37" stroke-width="2"/><circle cx="640" cy="150" r="44" fill="#d4af37" opacity=".18"/>
+    <path d="M0 230 L120 150 L190 190 L300 95 L380 160 L470 110 L560 185 L650 140 L760 205 L1200 205 L1200 340 L0 340Z" fill="#0a0907" stroke="#d4af37" stroke-width="2"/>
+    <path d="M300 95 L330 125 M470 110 L495 135 M650 140 L670 158" stroke="#d4af37" stroke-width="1.5" opacity=".6"/>
+    <g fill="none" stroke="url(#gl)" stroke-width="2"><path d="M0 250 Q150 240 300 250 T600 250 T900 250 T1200 250"/><path d="M0 280 Q150 270 300 280 T600 280 T900 280 T1200 280" opacity=".7"/><path d="M0 310 Q150 300 300 310 T600 310 T900 310 T1200 310" opacity=".45"/></g>
+    <g transform="translate(760 118)" fill="#d4af37"><path d="M0 0 C-4 -12 -18 -14 -18 -4 C-18 4 -8 6 -2 2 C-10 6 -12 14 -6 15 C-2 16 0 8 0 0 Z"/><path d="M0 0 C4 -12 18 -14 18 -4 C18 4 8 6 2 2 C10 6 12 14 6 15 C2 16 0 8 0 0 Z" opacity=".8"/></g>
+  </svg></div>
+</div></section>
+
+<section class="band" id="comunidad"><div class="wrap">
+  <p class="kicker">Comunidad</p><h2>Crece con nosotras</h2>
+  <p class="lead" style="margin-top:16px">Frases, ejercicios y recetas cada semana. Escríbenos: respondemos a todos los mensajes.</p>
+  <div class="social">
+    <a href="https://www.instagram.com/aletsefit" target="_blank" rel="noopener"><b>Instagram</b><span>@aletsefit · frases, recetas y ejercicios</span></a>
+    <a href="https://www.youtube.com/@aletsefit" target="_blank" rel="noopener"><b>YouTube</b><span>@aletsefit · rutinas completas en vídeo</span></a>
+    <a href="#app"><b>La app</b><span>Muy pronto en Google Play</span></a>
+  </div>
+</div></section>
+
+<section class="band contact app" id="contacto"><div class="wrap">
+  <p class="kicker">Contacto</p><h2>Hablemos</h2>
+  <p class="lead" style="margin:16px auto 22px">¿Dudas sobre la app, el plan VIP o colaboraciones? Escríbenos.</p>
+  <a class="mail" href="mailto:aletsefitoficial@gmail.com">aletsefitoficial@gmail.com</a>
+  <p style="color:var(--mute);margin-top:14px">Palma de Mallorca, Illes Balears</p>
+</div></section>
+
+<footer><div class="wrap">
+  <span>© 2026 ALETSE FIT · Fuerza que transforma</span>
+  <span><a href="privacidad.html">Privacidad</a> · <a href="borrar-cuenta.html">Borrar cuenta</a></span>
+  <span style="flex-basis:100%">ALETSE FIT ofrece orientación general sobre ejercicio y alimentación y no sustituye el consejo de un profesional sanitario.</span>
+</div></footer>
+
+<script>
+{
+const sh=document.getElementById('shots');
+const step=()=>{const f=sh.querySelector('figure');return f?f.getBoundingClientRect().width+16:240};
+document.getElementById('prev').addEventListener('click',()=>sh.scrollBy({left:-step(),behavior:'smooth'}));
+document.getElementById('next').addEventListener('click',()=>sh.scrollBy({left:step(),behavior:'smooth'}));
+sh.addEventListener('keydown',e=>{if(e.key==='ArrowRight')sh.scrollBy({left:step()});if(e.key==='ArrowLeft')sh.scrollBy({left:-step()})});
+sh.tabIndex=0;
+}
+</script>
+</body>
+</html>

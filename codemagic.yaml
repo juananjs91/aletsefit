@@ -1,0 +1,31 @@
+# iPhone (fase 2): compila y sube a TestFlight/App Store desde Codemagic, sin Mac.
+# Requiere cuenta de Apple Developer y conectar la clave de App Store Connect en Codemagic
+# (Teams › Integrations › App Store Connect) con el nombre "ALETSE FIT ASC".
+workflows:
+  ios-release:
+    name: iPhone App Store
+    max_build_duration: 60
+    integrations:
+      app_store_connect: ALETSE FIT ASC
+    environment:
+      ios_signing:
+        distribution_type: app_store
+        bundle_identifier: com.aletsefit.app
+      node: 22
+      xcode: latest
+    scripts:
+      - name: Instalar y preparar
+        script: npm ci && npm run build && npx cap sync ios
+      - name: Perfiles de firma
+        script: xcode-project use-profiles --project ios/App/App.xcodeproj
+      - name: Número de versión
+        script: agvtool new-version -all $(($BUILD_NUMBER + 1))
+        working_directory: ios/App
+      - name: Compilar
+        script: xcode-project build-ipa --project ios/App/App.xcodeproj --scheme App
+    artifacts:
+      - build/ios/ipa/*.ipa
+    publishing:
+      app_store_connect:
+        auth: integration
+        submit_to_testflight: true

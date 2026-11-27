@@ -1,0 +1,12 @@
+{
+  "appId": "com.aletsefit.app",
+  "appName": "ALETSE FIT",
+  "webDir": "www",
+  "backgroundColor": "#070707",
+  "android": { "backgroundColor": "#070707" },
+  "ios": { "backgroundColor": "#070707", "contentInset": "never" },
+  "plugins": {
+    "SplashScreen": { "launchShowDuration": 1200, "backgroundColor": "#070707", "showSpinner": false },
+    "StatusBar": { "style": "DARK", "backgroundColor": "#070707", "overlaysWebView": false }
+  }
+}

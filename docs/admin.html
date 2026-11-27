@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex">
+<title>Panel ALETSE FIT</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=DM+Serif+Display&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* VOICE: sobria, de despacho privado
+   IDEA: la libreta de clientas de una entrenadora personal
+   PICTURE: la lista de clientas VIP con avisos dorados de lo pendiente
+   COLOUR and TYPE: negro y dorado de la marca; Cinzel para la marca, DM Serif Display + Inter
+   LAYOUT: una columna; lista → ficha de clienta con planes y chat */
+:root{color-scheme:dark;--bg:#070707;--card:#111;--line:#2b261b;--ink:#f3eee2;--mute:#a8a090;--gold:#d4af37;--goldg:linear-gradient(135deg,#f6e3a1,#d4af37 50%,#9c7820);--on:#0b0b0b;--soft:#17150f}
+*{box-sizing:border-box;min-width:0}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 Inter,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+h1,h2,h3{margin:0;font-weight:400;line-height:1.1}h1{font:400 32px 'DM Serif Display',serif}h2{font:400 22px 'DM Serif Display',serif}h3{font:600 16px Inter}
+.wrap{max-width:720px;margin:0 auto;padding:calc(16px + env(safe-area-inset-top)) 20px 40px}
+header{display:flex;align-items:center;justify-content:space-between;margin-bottom:22px}
+.brand{font:900 18px Cinzel,serif;letter-spacing:.08em;color:var(--gold)}
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:0 20px;border-radius:14px;border:1px solid var(--line);background:var(--card);color:var(--ink);font:600 15px Inter;cursor:pointer}
+.btn.gold{background:var(--goldg);color:var(--on);border:0}.btn.block{width:100%}
+.btn:focus-visible,input:focus-visible,textarea:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+label{display:block;font-size:14px;font-weight:500;margin:14px 0 6px}
+input,textarea{font:16px Inter;width:100%;border-radius:14px;border:1.5px solid var(--line);background:var(--card);color:var(--ink);padding:12px 14px}
+input{min-height:50px}textarea{min-height:180px;resize:vertical;line-height:1.5}
+.card{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:18px}
+.mute{color:var(--mute);font-size:14px}.err{color:#ff8a6b;font-size:14px;min-height:20px}
+.stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-bottom:20px}
+.stat{background:var(--soft);border-radius:16px;padding:14px}.stat b{display:block;font:400 26px 'DM Serif Display',serif;color:var(--gold)}.stat span{font-size:13px;color:var(--mute)}
+.seg{display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap}.seg button{min-height:40px;padding:0 16px;border-radius:20px;border:1px solid var(--line);background:none;color:var(--mute);font:600 14px Inter;cursor:pointer}
+.seg button.on{background:var(--gold);color:var(--on);border-color:var(--gold)}
+.client{display:flex;gap:14px;align-items:center;width:100%;text-align:left;padding:14px 16px;border-radius:18px;border:1px solid var(--line);background:var(--card);color:var(--ink);cursor:pointer;margin-bottom:10px}
+.ini{flex:none;width:44px;height:44px;border-radius:50%;background:var(--goldg);color:var(--on);display:grid;place-items:center;font:400 18px 'DM Serif Display',serif}
+.tag{display:inline-block;font-size:12px;font-weight:600;padding:3px 9px;border-radius:9px;background:var(--gold);color:var(--on);margin:4px 6px 0 0}
+.tag.off{background:var(--soft);color:var(--mute)}
+.grow{flex:1}.row{display:flex;gap:10px;align-items:center}
+.back{background:none;border:0;color:var(--gold);font:600 15px Inter;min-height:44px;padding:0;cursor:pointer}
+.chat{display:flex;flex-direction:column;gap:8px;max-height:380px;overflow-y:auto;padding:4px;margin-bottom:10px}
+.msg{max-width:82%;padding:10px 14px;border-radius:18px;font-size:15px;white-space:pre-wrap}
+.msg.admin{align-self:flex-end;background:var(--gold);color:var(--on)}.msg.client{align-self:flex-start;background:var(--soft)}
+.msg time{display:block;font-size:12px;opacity:.7}
+.sec{margin-top:22px}.sec>h2{margin-bottom:10px}
+dl{display:grid;grid-template-columns:auto 1fr;gap:6px 14px;margin:0}dt{color:var(--mute);font-size:14px}dd{margin:0}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:var(--card);border:1px solid var(--gold);padding:12px 18px;border-radius:14px;display:none;font-weight:600}
+.toast.show{display:block}
+</style>
+</head>
+<body>
+<div class="wrap" id="app"><p class="mute">Cargando…</p></div>
+<div class="toast" id="toast" role="status"></div>
+<script src="config.js"></script>
+<script src="js/fb.js"></script>
+<script>
+{
+const C=window.ALETSE_CONFIG||{};const app=document.getElementById('app');
+const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const toast=m=>{const t=document.getElementById('toast');t.textContent=m;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2500)};
+const fmt=t=>{if(!t)return '';const d=new Date(t);return d.toLocaleDateString('es-ES')+' '+String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0')};
+if(!C.firebase||!C.firebase.apiKey){app.innerHTML='<h1>Falta configurar Firebase</h1><p class="mute">Rellena config.js con los datos de tu proyecto de Firebase.</p>';}
+else{
+FB.init(C.firebase);
+let clients=[],filter='activas',stopList=null,stopChat=null,cur=null,msgs=[];
+function loginView(err){app.innerHTML=`<header><span class="brand">ALETSE FIT</span></header><h1 style="margin-bottom:6px">Panel de administración</h1><p class="mute">Entra con tu correo de administradora.</p>
+  <form id="lf"><label for="lm">Correo</label><input id="lm" type="email" autocomplete="email" required><label for="lp">Contraseña</label><input id="lp" type="password" autocomplete="current-password" required><p class="err">${esc(err||'')}</p><button class="btn gold block">Entrar</button></form>`}
+function listView(){
+  const act=clients.filter(c=>c.active);const shown=filter==='activas'?act:filter==='pendientes'?clients.filter(c=>c.active&&(c.pending||c.unread)):clients;
+  const income=(act.length*9.99*0.85).toFixed(2).replace('.',',');
+  app.innerHTML=`<header><span class="brand">ALETSE FIT</span><button class="btn" id="out">Salir</button></header>
+  <h1 style="margin-bottom:16px">Clientas VIP</h1>
+  <div class="stats"><div class="stat"><b>${act.length}</b><span>Activas</span></div><div class="stat"><b>${clients.filter(c=>c.active&&(c.pending||c.unread)).length}</b><span>Pendientes</span></div><div class="stat"><b>${income} €</b><span>Al mes aprox. (tras 15 % de la tienda)</span></div></div>
+  <div class="seg">${[['activas','Activas'],['pendientes','Pendientes'],['todas','Todas']].map(f=>`<button data-f="${f[0]}" class="${filter===f[0]?'on':''}">${f[1]}</button>`).join('')}</div>
+  ${shown.length?shown.map(c=>`<button class="client" data-id="${esc(c.id)}"><span class="ini">${esc((c.name||c.email||'?')[0].toUpperCase())}</span><span class="grow"><h3>${esc(c.name||'Sin nombre')}</h3><span class="mute">${esc(c.email||'')}</span><br>
+    ${!c.active?'<span class="tag off">Baja</span>':''}${c.active&&!c.form?'<span class="tag off">Sin cuestionario</span>':''}${c.pending?'<span class="tag">Preparar planes</span>':''}${c.unread?'<span class="tag">Mensaje nuevo</span>':''}</span><span aria-hidden="true">›</span></button>`).join(''):'<div class="card mute">No hay clientas en esta lista todavía.</div>'}`}
+function detailView(){const c=clients.find(x=>x.id===cur);if(!c){cur=null;return listView()}const f=c.form||{};
+  app.innerHTML=`<button class="back" id="bk">‹ Clientas</button><h1 style="margin:6px 0 4px">${esc(c.name||'Sin nombre')}</h1><p class="mute" style="margin:0">${esc(c.email||'')} · VIP desde ${esc(new Date(c.since||Date.now()).toLocaleDateString('es-ES'))}${c.active?'':' · <b>de baja</b>'}</p>
+  <div class="sec card"><h2 style="margin-bottom:10px">Cuestionario</h2>${c.form?`<dl><dt>Edad</dt><dd>${esc(f.age)}</dd><dt>Altura</dt><dd>${esc(f.h)} cm</dd><dt>Peso</dt><dd>${esc(f.w)} kg</dd><dt>Días/semana</dt><dd>${esc(f.days)}</dd><dt>Lesiones</dt><dd>${esc(f.inj||'—')}</dd><dt>Alimentación</dt><dd>${esc(f.food||'—')}</dd><dt>Objetivo</dt><dd>${esc(f.goal||'—')}</dd></dl>`:'<p class="mute" style="margin:0">Todavía no lo ha rellenado.</p>'}</div>
+  <div class="sec"><h2>Planes privados</h2><form id="pf"><label for="tp">Plan de entreno</label><textarea id="tp" placeholder="Escribe aquí su rutina: días, ejercicios, series, repeticiones…">${esc(c.trainPlan||'')}</textarea>
+    <label for="dp">Plan de dieta</label><textarea id="dp" placeholder="Escribe aquí su menú: desayuno, comida, cena, lista de la compra…">${esc(c.dietPlan||'')}</textarea>
+    <button class="btn gold block" style="margin-top:12px">Guardar y enviar a la clienta</button></form>${c.plansAt?`<p class="mute">Enviados el ${esc(fmt(c.plansAt))}</p>`:''}</div>
+  <div class="sec card"><h2 style="margin-bottom:10px">Consultoría</h2><div class="chat" id="chat">${msgs.length?msgs.map(m=>`<div class="msg ${m.from==='admin'?'admin':'client'}">${esc(m.t)}<time>${esc(fmt(m.at))}</time></div>`).join(''):'<p class="mute">Sin mensajes todavía.</p>'}</div>
+    <form id="cf" class="row" style="align-items:flex-end"><textarea id="ci" style="min-height:56px" placeholder="Escribe tu respuesta…" aria-label="Respuesta"></textarea><button class="btn gold">Enviar</button></form></div>`;
+  const ch=document.getElementById('chat');ch.scrollTop=ch.scrollHeight}
+const render=()=>cur?detailView():listView();
+function openClient(id){cur=id;msgs=[];if(stopChat)stopChat();
+  stopChat=FB.onSnapshot(FB.query(FB.collection('chats',id,'msgs'),FB.orderBy('at')),s=>{msgs=s.docs.map(d=>d.data());const typing=document.activeElement&&['tp','dp','ci'].includes(document.activeElement.id);if(cur===id&&!typing)render();else if(cur===id){const ch=document.getElementById('chat');if(ch){ch.innerHTML=msgs.map(m=>`<div class="msg ${m.from==='admin'?'admin':'client'}">${esc(m.t)}<time>${esc(fmt(m.at))}</time></div>`).join('');ch.scrollTop=ch.scrollHeight}}});
+  const c=clients.find(x=>x.id===id);if(c&&c.unread)FB.updateDoc(FB.doc('vip',id),{unread:false}).catch(()=>{});render()}
+app.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;
+  if(b.id==='out'){FB.signOut();return}if(b.id==='bk'){cur=null;if(stopChat)stopChat();render();return}
+  if(b.dataset.f){filter=b.dataset.f;render();return}if(b.dataset.id){openClient(b.dataset.id);return}});
+app.addEventListener('submit',async e=>{e.preventDefault();const id=e.target.id;
+  if(id==='lf'){try{await FB.signInWithEmailAndPassword(document.getElementById('lm').value.trim(),document.getElementById('lp').value)}catch(x){loginView('Correo o contraseña incorrectos.')}}
+  if(id==='pf'){try{await FB.updateDoc(FB.doc('vip',cur),{trainPlan:document.getElementById('tp').value.trim(),dietPlan:document.getElementById('dp').value.trim(),plansAt:Date.now(),pending:false,updatedAt:Date.now()});
+      await FB.addDoc(FB.collection('chats',cur,'msgs'),{from:'admin',t:'¡Tus planes privados ya están listos! Los tienes en «Mis planes».',at:Date.now()});toast('Planes enviados')}catch(x){toast('No se pudo guardar')}}
+  if(id==='cf'){const v=document.getElementById('ci').value.trim();if(!v)return;try{await FB.addDoc(FB.collection('chats',cur,'msgs'),{from:'admin',t:v,at:Date.now()});document.getElementById('ci').value=''}catch(x){toast('No se pudo enviar')}}});
+FB.onAuthStateChanged(u=>{if(stopList){stopList();stopList=null}
+  if(!u){cur=null;return loginView()}
+  if(C.adminEmail&&u.email!==C.adminEmail){FB.signOut();return loginView('Esta cuenta no es de administradora.')}
+  stopList=FB.onSnapshot(FB.query(FB.collection('vip'),FB.orderBy('updatedAt','desc')),s=>{clients=s.docs.map(d=>Object.assign({id:d.id},d.data()));const typing=document.activeElement&&['tp','dp','ci'].includes(document.activeElement.id);if(!typing)render()},()=>{app.innerHTML='<h1>Sin permiso</h1><p class="mute">Revisa que tu correo esté en firestore.rules.</p><button class="btn" id="out">Salir</button>'})});
+}
+}
+</script>
+</body>
+</html>

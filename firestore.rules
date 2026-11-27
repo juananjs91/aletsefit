@@ -1,0 +1,37 @@
+rules_version = '2';
+// Reglas de seguridad de ALETSE FIT.
+// IMPORTANTE: cambia aletsefitoficial@gmail.com por el correo con el que entrarás al panel de administración.
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function signedIn() { return request.auth != null; }
+    function isAdmin() { return signedIn() && request.auth.token.email == 'aletsefitoficial@gmail.com'; }
+    function isOwner(uid) { return signedIn() && request.auth.uid == uid; }
+
+    // Perfil y progreso de cada usuaria: solo ella (y la administradora para leer)
+    match /users/{uid} {
+      allow read: if isOwner(uid) || isAdmin();
+      allow create, update: if isOwner(uid) && request.resource.size() < 900000;
+      allow delete: if isOwner(uid);
+    }
+
+    // Ficha VIP: la clienta activa su suscripción y envía el cuestionario;
+    // solo la administradora escribe los planes privados.
+    match /vip/{uid} {
+      allow read: if isOwner(uid) || isAdmin();
+      allow create: if isOwner(uid)
+        && !request.resource.data.keys().hasAny(['trainPlan', 'dietPlan']);
+      allow update: if isAdmin() || (isOwner(uid)
+        && !request.resource.data.diff(resource.data).affectedKeys().hasAny(['trainPlan', 'dietPlan', 'plansAt']));
+      allow delete: if isOwner(uid) || isAdmin();
+    }
+
+    // Chat de consultoría
+    match /chats/{uid}/msgs/{msgId} {
+      allow read: if isOwner(uid) || isAdmin();
+      allow create: if (isOwner(uid) && request.resource.data.from == 'client'
+                         && request.resource.data.t is string && request.resource.data.t.size() < 2000)
+                    || (isAdmin() && request.resource.data.from == 'admin');
+      allow delete: if isOwner(uid) || isAdmin();
+    }
+  }
+}
